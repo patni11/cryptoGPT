@@ -2,12 +2,14 @@ import { Configuration, OpenAIApi } from "openai";
 import coinIds from "../../data/coinIds";
 import coinNames from "../../data/names";
 import coinSymbols from "../../data/symbols";
-import { getPrice } from "./getPrice";
+import { getPrice, getCoinData, getCryptoData } from "./coingecko";
 import { findMatch } from "./findSimilarity";
 import coinData from "../../data/coinData";
+//import { getCoinData } from "./getCoinData";
 
+console.log(process.env.OPENAI_API_KEY);
 const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: "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",
 });
 
 const openai = new OpenAIApi(configuration);
@@ -23,8 +25,8 @@ export default async function(req, res) {
     return;
   }
 
-  const animal = req.body.animal || "";
-  if (animal.trim().length === 0) {
+  const userPrompt = req.body.animal || "";
+  if (userPrompt.trim().length === 0) {
     res.status(400).json({
       error: {
         message: "Please enter a valid animal",
@@ -34,17 +36,39 @@ export default async function(req, res) {
   }
 
   try {
+    // const completion = await openai.createChatCompletion({
+    //   model: "gpt-3.5-turbo",
+    //   messages: generatePrompt(userPrompt),
+    // });
+    // const chatGPTOutput = completion.data.choices[0].message.content.replace(
+    //   " ",
+    //   ""
+    // );
+    // console.log(chatGPTOutput);
+
     const completion = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt: generatePrompt(animal),
+      prompt: generatePrompt(userPrompt),
       temperature: 0.6,
     });
 
     const chatGPTOutput = completion.data.choices[0].text.replace(" ", "");
 
-    const ticker = findRightTicker(chatGPTOutput);
-    const price = await getPrice(ticker);
-    res.status(200).json({ result: price });
+    const chatGPTOutputSplit = chatGPTOutput.split(",");
+
+    if (chatGPTOutputSplit[0] == "global") {
+      const cryptoData = await getCryptoData();
+      res.status(200).json({ result: cryptoData });
+    } else {
+      const ticker = findRightTicker(chatGPTOutputSplit[0]);
+      const price = await getPrice(ticker);
+      let coinData = "";
+      if (chatGPTOutputSplit[1]) {
+        coinData = await getCoinData(ticker);
+      }
+
+      res.status(200).json({ result: price + "\n" + coinData });
+    }
   } catch (error) {
     // Consider adjusting the error handling logic for your use case
     if (error.response) {
@@ -96,12 +120,40 @@ function findRightTicker(chatGPTOutput) {
   return result.id;
 }
 
-function generatePrompt(animal) {
-  return `Find the word that sounds most like a cryptocurrency and get the name of it in small caps, fullname format as shown in following examples
-  , if you are unsure of the exact token name format, you can just return the name that user entered in the query:
+function generatePrompt(userPrompt) {
+  // const message = [
+  //   {
+  //     role: "system",
+  //     content:
+  //       "You are a crypto expert and understand all terminology, your task is to figure out user's question and seperate user's question into groups and create a basic text that can be used by another program",
+  //   },
+  //   { role: "user", content: "What is Bitcoin" },
+  //   { role: "assistant", content: "bitcoin" },
+  //   { role: "user", content: "What is the price of coin made by vitalik" },
+  //   { role: "assistant", content: "ethereum" },
+  //   { role: "user", content: "cryptocurrency market trading vol" },
+  //   { role: "assistant", content: "crypto, trading volume" },
+  //   { role: "user", content: "ether market cap" },
+  //   { role: "assistant", content: "ethereum, market cap" },
+  //   { role: "user", content: "ada price change in last 7 days" },
+  //   { role: "assistant", content: "cardano, price_change_7d" },
+  //   { role: "user", content: "gmx 7 day %" },
+  //   { role: "assistant", content: "gmx, change_7_day" },
+  //   {
+  //     role: "user",
+  //     content:
+  //       "if the question just mentions a token without any other relevant information, reply with just the token name. if the question is asking for details about the crypto token, reply  with token name and More ex - Question - What is the mkt cap of ethereum, reply with - ethereum, more. change in price of ada in last 7 days, reply with cardano, more Questions is: " +
+  //       userPrompt,
+  //   },
+  // ];
 
-  Sentence: What is Bitcoin
-  Output: bitcoin
+  const message = `reply to the next questions based on this information - 
+  if the question seems like it is just mentioning a crypto token, reply with just the token name 
+  if the question is asking for details about the crypto token, reply  with token name, detail ex - Question - What is the mkt cap of ethereum, reply with - ethereum, detail, question - ada details, reply with cardano, details
+  if the question has term crypto, cryptocuurency, total market, reply with global
+  make everyting lower case
+  Sentence: What is Bitcoin and it's market cap
+  Output: bitcoin, detail
   Sentence: how much is btc worth
   Output: bitcoin
   Sentence: is ETH the best crypto?
@@ -110,10 +162,14 @@ function generatePrompt(animal) {
   Output: cardano
   Sentence: is matic the best crypto in town?
   Output: polygon
-  Sentence: How much is 1 GMX worth?
+  Sentence: GMX
   Output: gmx
-  Sentence: ${animal}
+Sentence: crypto trading vol
+Output crypto, detail
+  Sentence: ${userPrompt}
   Output:`;
+
+  return message;
 }
 
 // maybe the best way is to use chatgpt first and get the name, and use the name from initial query. Now for both we get the score, and then we can use the highest score one to get the price.
