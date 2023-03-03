@@ -117,3 +117,6 @@ function generatePrompt(animal) {
 }
 
 // maybe the best way is to use chatgpt first and get the name, and use the name from initial query. Now for both we get the score, and then we can use the highest score one to get the price.
+
+//code - 536988672
+//token - MTA4MDU2NDY5MTY1NjUxMTUyMA.Gs9zLr.PNKbkBoMS3atiRiS_Ht7Vk6GBCFN9UdnDCAmZY
