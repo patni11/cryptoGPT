@@ -39,7 +39,6 @@ client.on("messageCreate", async function(message) {
     );
   }
   if (message.author.bot) return;
-  console.log(message);
 });
 
 client.login(token);

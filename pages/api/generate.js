@@ -7,9 +7,9 @@ import { findMatch } from "./findSimilarity";
 import coinData from "../../data/coinData";
 //import { getCoinData } from "./getCoinData";
 
-console.log(process.env.OPENAI_API_KEY);
+console.log(process.env);
 const configuration = new Configuration({
-  apiKey: "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",
+  apiKey: "",
 });
 
 const openai = new OpenAIApi(configuration);
