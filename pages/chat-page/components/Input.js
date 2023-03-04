@@ -1,18 +1,55 @@
 import React, { useState } from "react";
 import { send } from "../assets/icons";
 
-export default function Input({
-  addMessage,
-  img
-}) {
-  const [input, setInput] = useState<string>("");
+export default function({addMessage, img}) {
+  const [input, setInput] = useState("");
+  const [result, setResult] = useState();
+
+  async function sendMessage({animalMessage}) {
+    console.log("animalMessage: " + animalMessage)
+    try {
+      const response = await fetch("/api/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ animal: animalMessage+"" }),
+      });
+
+      const data = await response.json();
+      if (response.status !== 200) {
+        throw data.error ||
+          new Error(`Request failed with status ${response.status}`);
+      }
+
+      setResult(data.result);
+      // append the response data as a new message
+      addMessage({
+        msg: data.result,
+        me: false,
+        img,
+        _id: new Date().toString(),
+      });
+    } catch (error) {
+      // Consider implementing your own error handling logic here
+      console.error(error);
+      alert(error.message);
+    }
+  }
+
   function handleInput() {
+    // append a message component
     addMessage({
       msg: input,
       me: true,
       img,
       _id: new Date().toString(),
     });
+
+    console.log("sending sendMessage with " + input);
+    // send the message to the api    
+    sendMessage(input)
+
     setInput("");
   }
   return (

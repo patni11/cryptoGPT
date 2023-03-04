@@ -1,9 +1,8 @@
 import React, { useEffect, useRef } from "react";
-import { Message as MessageType } from "../App";
 import Message from "./Message";
 
-export default function Messages({ messages, show }) {
-  const scrollRef = useRef<HTMLDivElement | null>(null);
+export default function Messages({ messages }) {
+  const scrollRef = useRef(null);
   useEffect(updateScroll, [messages]);
 
   function updateScroll() {

@@ -3,15 +3,9 @@ import Hero from "./Hero";
 import Input from "./Input";
 import Messages from "./Messages";
 
-export default function App() {
+export default function ChatPage() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [chatLoading, setChatloading] = useState(true);
-  const [auth, setAuth] = useState(() => {
-    const user = localStorage.getItem("auth");
-    if (!user) return undefined;
-    return JSON.parse(user);
-  });
 
   function addMessage(msg) {
     setMessages((prev) => [...prev, msg]);
