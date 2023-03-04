@@ -2,7 +2,7 @@
 const ChatClient = require("@walletconnect/chat-client");
 require("dotenv").config();
 
-const func = async () => {
+export const func = async () => {
   const chatClient = await ChatClient.init({
     projectId: process.env.WALLET_CONNECT_PROJECT_ID,
     keyseverUrl: process.env.WALLET_CONNECT_URL,
@@ -38,4 +38,3 @@ chatClient.on("chat_left", (event) => {
   // React to a peer leaving a given chat.
   console.log("chat left");
 });
-export func;
