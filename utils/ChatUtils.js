@@ -9,7 +9,7 @@ export const createChatClient = async () => {
   chatClient = await ChatClient.init({
     logger: "debug",
     keyseverUrl: "https://keys.walletconnect.com",
-    projectId: "6f13342866c07f1d073480dc8e166fc3",
+    projectId: "",
     relayUrl: "wss://relay.walletconnect.com",
   });
 };
