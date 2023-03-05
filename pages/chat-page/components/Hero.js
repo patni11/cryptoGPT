@@ -1,5 +1,6 @@
 import React from "react";
 import { alert, sun, thunder } from "../assets/icons";
+import styles from '../ChatPage.module.css';
 
 export default function Hero() {
   return (
@@ -11,7 +12,7 @@ export default function Hero() {
         width: "100%",
       }}
     >
-      <h1 style={{ marginTop: "18vh", marginBottom: "5vh" }}>ChatGPT</h1>
+      <h1 style={{ marginTop: "18vh", marginBottom: "5vh", color: "#ECECF1", fontFamily: 'Questrial' }}>CryptoGPT</h1>
       <div
         className="cols"
         style={{ display: "flex", flexDirection: "row", gap: "58px" }}
@@ -24,13 +25,14 @@ export default function Hero() {
             alignItems: "center",
             justifyContent: "center",
             textAlign: "center",
+            color: "#ECECF1"
           }}
         >
           {sun}
           <p style={{ fontSize: "18px", marginTop: "5px" }}>Examples</p>
           <div
             style={{
-              backgroundColor: "#3e3f4b",
+              backgroundColor: "#444653",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -38,14 +40,15 @@ export default function Hero() {
               lineHeight: "18px",
               marginTop: "18px",
               fontSize: "14px",
+              borderRadius: "10px",
             }}
           >
-            "Explain quantum computing in simple terms"
+            "What is the price of Ethereum?"
           </div>
           <div
             className=""
             style={{
-              backgroundColor: "#3e3f4b",
+              backgroundColor: "#444653",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -53,13 +56,14 @@ export default function Hero() {
               marginTop: "18px",
               lineHeight: "18px",
               fontSize: "14px",
+              borderRadius: "10px",
             }}
           >
-            "Got any creative ideas for a 10 year old’s birthday?"
+            "Vitalik Coin?"
           </div>
           <div
             style={{
-              backgroundColor: "#3e3f4b",
+              backgroundColor: "#444653",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -67,9 +71,10 @@ export default function Hero() {
               marginTop: "18px",
               lineHeight: "18px",
               fontSize: "14px",
+              borderRadius: "10px",
             }}
           >
-            "How do I make an HTTP request in Javascript?"
+            "What is the total market cap of the crypto industry?"
           </div>
         </div>
         <div
@@ -80,6 +85,7 @@ export default function Hero() {
             alignItems: "center",
             justifyContent: "center",
             textAlign: "center",
+            color: "#ECECF1"
           }}
         >
           {thunder}
@@ -87,7 +93,7 @@ export default function Hero() {
           <div
             className="hiderow"
             style={{
-              backgroundColor: "#3e3f4b",
+              backgroundColor: "#444653",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -95,13 +101,14 @@ export default function Hero() {
               marginTop: "18px",
               fontSize: "14px",
               lineHeight: "18px",
+              borderRadius: "10px",
             }}
           >
-            Remembers what user said earlier in the conversation
+            Allows user to ask questions about real-time market data, something ChatGPT doesn't
           </div>
           <div
             style={{
-              backgroundColor: "#3e3f4b",
+              backgroundColor: "#444653",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -109,14 +116,15 @@ export default function Hero() {
               marginTop: "18px",
               fontSize: "14px",
               lineHeight: "18px",
+              borderRadius: "10px",
             }}
           >
-            Allows user to provide follow-up corrections
+            User can quickly fetch on-chain info using natural language
           </div>
           <div
             className="hiderow"
             style={{
-              backgroundColor: "#3e3f4b",
+              backgroundColor: "#444653",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -124,9 +132,10 @@ export default function Hero() {
               marginTop: "18px",
               fontSize: "14px",
               lineHeight: "18px",
+              borderRadius: "10px",
             }}
           >
-            Trained to decline inappropriate requests
+            Remembers what user said earlier in the conversation
           </div>
         </div>
         <div
@@ -137,6 +146,7 @@ export default function Hero() {
             alignItems: "center",
             justifyContent: "center",
             textAlign: "center",
+            color: "#ECECF1"
           }}
         >
           {alert}
@@ -144,7 +154,7 @@ export default function Hero() {
           <div
             className="hiderow"
             style={{
-              backgroundColor: "#3e3f4b",
+              backgroundColor: "#444653",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -152,14 +162,15 @@ export default function Hero() {
               marginTop: "18px",
               fontSize: "14px",
               lineHeight: "18px",
+              borderRadius: "10px",
             }}
           >
-            May occasionally generate incorrect information
+            Additional API integrations are coming, more complex queries will be available
           </div>
           <div
             className="hiderow"
             style={{
-              backgroundColor: "#3e3f4b",
+              backgroundColor: "#444653",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -167,14 +178,15 @@ export default function Hero() {
               marginTop: "18px",
               fontSize: "14px",
               lineHeight: "18px",
+              borderRadius: "10px",
             }}
           >
-            May occasionally produce harmful instructions or biased content
+            NFT queries soon
           </div>
           <div
             className="hiderow"
             style={{
-              backgroundColor: "#3e3f4b",
+              backgroundColor: "#444653",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -182,9 +194,10 @@ export default function Hero() {
               marginTop: "18px",
               fontSize: "14px",
               lineHeight: "18px",
+              borderRadius: "10px",
             }}
           >
-            Limited knowledge of world and events after 2021
+            On-chain wallet to wallet comparison is coming
           </div>
         </div>
       </div>

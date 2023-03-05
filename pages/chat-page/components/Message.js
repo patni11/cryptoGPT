@@ -1,5 +1,6 @@
 import React from "react";
 import { logo } from "../assets/icons";
+import styles from '../ChatPage.module.css';
 
 export default function Message({ me, msg, img }) {
   return (
@@ -47,6 +48,7 @@ export default function Message({ me, msg, img }) {
           lineHeight: "20px",
           width: "100%",
           marginTop: "6.5px",
+          color: "white"
         }}
       >
         {msg.trim()}

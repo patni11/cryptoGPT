@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Hero from "./Hero";
 import Input from "./Input";
 import Messages from "./Messages";
+import styles from '../ChatPage.module.css';
+
 
 export default function ChatPage() {
   const [messages, setMessages] = useState([]);
@@ -20,10 +22,11 @@ export default function ChatPage() {
       <div
         className="main_cont"
         style={{
-          width: "50%",
+          width: "100%",
           margin: "auto",
           height: "100vh",
           position: "relative",
+          backgroundColor: "#343540"
         }}
       >
         {messages.length != 0 ? (

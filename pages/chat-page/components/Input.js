@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { send } from "../assets/icons";
+import styles from '../ChatPage.module.css';
 
 export default function({addMessage, img}) {
   const [input, setInput] = useState("");
@@ -120,19 +121,7 @@ export default function({addMessage, img}) {
           maxWidth: "85%",
         }}
       >
-        ChatGPT . Free Research Preview. Our goal is to make AI systems more
-        natural and safe to interact with. Your feedback will help us improve.
-      </p>
-      <p
-        style={{
-          fontSize: "13.5px",
-          marginTop: "9px",
-          cursor: "pointer",
-          color: "#bf3838",
-          fontWeight: "bold",
-        }}
-      >
-        Logout
+        Join us in building the best crypto resource assistant. CryptoGPT is now accepting investors. Contact us today to learn more.
       </p>
     </div>
   );

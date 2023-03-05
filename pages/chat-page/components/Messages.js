@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import Message from "./Message";
+import styles from '../ChatPage.module.css';
 
 export default function Messages({ messages }) {
   const scrollRef = useRef(null);
@@ -17,6 +18,7 @@ export default function Messages({ messages }) {
         margin: "auto",
         marginTop: "2.5vh",
         overflowY: "scroll",
+        color: "white"
       }}
     >
       <>
