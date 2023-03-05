@@ -9,7 +9,7 @@ import coinData from "../../data/coinData";
 
 console.log(process.env);
 const configuration = new Configuration({
-  apiKey: "",
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 const openai = new OpenAIApi(configuration);

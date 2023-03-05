@@ -6,10 +6,11 @@ import { useRouter } from "next/router";
 export let chatClient;
 
 export const createChatClient = async () => {
+  console.log("PROJECTID", process.env.WALLET_CONNECT_PROJECT_ID);
   chatClient = await ChatClient.init({
     logger: "debug",
     keyseverUrl: "https://keys.walletconnect.com",
-    projectId: "",
+    projectId: process.env.WALLET_CONNECT_PROJECT_ID,
     relayUrl: "wss://relay.walletconnect.com",
   });
 };
@@ -72,6 +73,8 @@ export const chatEventListeners = async (initialized) => {
     });
 
     const data = await response.json();
+
+    await message(data.result);
     if (response.status !== 200) {
       throw data.error ||
         new Error(`Request failed with status ${response.status}`);
@@ -82,7 +85,7 @@ export const chatEventListeners = async (initialized) => {
     // await chatClient?.ping(topic);
     if (topic != "") {
       console.log(message);
-      await chatClient?.message({
+      await chatClient.message({
         topic,
         message,
       });
