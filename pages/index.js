@@ -67,17 +67,23 @@ export default function Home() {
     console.log("match: " + JSON.stringify(match))
     if ((match.target === "latest balance" || match.target === "current balance") && match.rating > 0.7) {
       balance = await getBalance(address, "latest");
-      setResult("Your latest wallet balance is " + balance + " ETH.")
+      const newBigNumber = BigNumber.from(balance)
+      const convBalance = ethers.utils.formatEther(newBigNumber.toString())
+      setResult("Your latest wallet balance is " + convBalance + " ETH.")
       setAnimalInput("");
       console.log('latest balance');
     } else if (match.target === "pending balance" && match.rating > 0.7) {
       balance = await getBalance(address, "pending");
-      setResult("Your pending wallet balance is " + balance + " ETH.")
+      const newBigNumber = BigNumber.from(balance)
+      const convBalance = ethers.utils.formatEther(newBigNumber.toString())
+      setResult("Your pending wallet balance is " + convBalance + " ETH.")
       setAnimalInput("");
       console.log('pending balance');
     } else if (match.target === "earliest balance" && match.rating > 0.7) {
       balance = await getBalance(address, "earliest");
-      setResult("Your earliest wallet balance is " + balance + " ETH.")
+      const newBigNumber = BigNumber.from(balance)
+      const convBalance = ethers.utils.formatEther(newBigNumber.toString())
+      setResult("Your earliest wallet balance is " + convBalance + " ETH.")
       setAnimalInput("");
       console.log('earliest balance');
     } else {
