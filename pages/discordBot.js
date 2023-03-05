@@ -3,8 +3,7 @@ dotenv.config();
 
 const axios = require("axios");
 console.log("DISCORD", process.env.DISCORD_CLIENT_TOKEN);
-const token =
-  "MTA4MDc0MjM5NzYzOTY3NTk1NA.GQKd-p.6oN77uO7H1lAj23p75-SiN5Ha61_EXwex-L8Zs";
+const token = "";
 
 const { Client, GatewayIntentBits } = require("discord.js");
 const client = new Client({
