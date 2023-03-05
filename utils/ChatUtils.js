@@ -46,7 +46,6 @@ export const chatEventListeners = async (initialized) => {
   console.log("chatMessages on load:", chatClient?.chatMessages);
 
   chatClient?.on("chat_invite", async (args) => {
-    console.log("chat_invite...:", args);
     setTopic(args?.topic);
     await chatClient.accept({ id: args.id });
   });

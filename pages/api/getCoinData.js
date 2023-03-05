@@ -38,11 +38,8 @@ export const getCoinData = async (token) => {
       Supply: data["total_supply"],
       CirculatingSupply: data["circulating_supply"],
     };
-    let result = "";
-    for (let property in coinDataObject) {
-      result += `${property}: ${coinDataObject[property]}`;
-    }
-    return result;
+
+    return coinDataObject;
   } catch (error) {
     return "Try to spell the token in a different way or try another token.";
   }

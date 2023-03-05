@@ -64,7 +64,8 @@ export default async function(req, res) {
       const price = await getPrice(ticker);
       let coinData = "";
       if (chatGPTOutputSplit[1]) {
-        coinData = await getCoinData(ticker);
+        const TempcoinData = await getCoinData(ticker);
+        coinData = parseCoinData(TempcoinData, userPrompt);
       }
 
       res.status(200).json({ result: price + "\n" + coinData });
@@ -83,6 +84,57 @@ export default async function(req, res) {
       });
     }
   }
+}
+function parseCoinData(coinData, query) {
+  const words = query.split(" ");
+  const newObject = {};
+  const keyWords = [
+    "market_cap_rank",
+    "total_value_locked",
+    "market_cap",
+    "ath_change_percentage",
+    "price_change_percentage_24h",
+    "price_change_percentage_7d",
+    "price_change_percentage_14d",
+    "price_change_percentage_30d",
+    "price_change_percentage_60d",
+    "price_change_percentage_200d",
+    "price_change_percentage_1y",
+    "total_supply",
+    "circulating_supply",
+  ];
+
+  const keyWordToReadable = {
+    market_cap_rank: "Rank",
+    total_value_locked: "TVL",
+    market_cap: "Market Cap",
+    ath_change_percentage: "% from ATH",
+    price_change_percentage_24h: "% change in 24 Hours",
+    price_change_percentage_7d: "% change in 7 days",
+    price_change_percentage_14d: "% change in 14 days",
+    price_change_percentage_30d: "% change in 30 days",
+    price_change_percentage_60d: "% change in 60 days",
+    price_change_percentage_200d: "% change in 200 days",
+    price_change_percentage_1y: "% change in 1 year",
+    total_supply: "Total Supply",
+    circulating_supply: "Circulating Supply",
+  };
+
+  for (const each of words) {
+    const wordObject = findMatch(each, keyWords);
+    console.log("WORD OBJECT", wordObject);
+    if (wordObject.rating > 0.7) {
+      newObject[keyWordToReadable[wordObject.target]] =
+        coinData[wordObject.target];
+    }
+  }
+
+  console.log("NEW OBJECT", newObject);
+  let result = "";
+  for (let property in newObject) {
+    result += `${property}: ${newObject[property]}`;
+  }
+  return result;
 }
 
 function findRightTicker(chatGPTOutput) {
