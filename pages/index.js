@@ -10,6 +10,13 @@ import initializeChatClient, {
 import { useAccount } from "wagmi";
 import { signMessage } from "@wagmi/core";
 import { useCallback, useEffect, useState } from "react";
+import axios from 'axios';
+import { getBalance } from "./api/infura";
+import { ethers, BigNumber } from 'ethers';
+import { getMyAddress } from "../utils/wagmi";
+import { Web3Modal } from "@web3modal/react";
+import { findBestMatch } from "string-similarity";
+import { findMatch } from "./api/findSimilarity";
 
 export default function Home() {
   const [animalInput, setAnimalInput] = useState("");
@@ -49,28 +56,55 @@ export default function Home() {
 
   async function onSubmit(event) {
     event.preventDefault();
-    try {
-      const response = await fetch("/api/generate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ animal: animalInput }),
-      });
-
-      const data = await response.json();
-      if (response.status !== 200) {
-        throw data.error ||
-          new Error(`Request failed with status ${response.status}`);
-      }
-
-      setResult(data.result);
+    let balance = ""
+    const targetStrings = [
+      "latest balance",
+      "current balance",
+      "pending balance",
+      "earliest balance"
+    ]
+    const match = findMatch(animalInput, targetStrings)
+    console.log("match: " + JSON.stringify(match))
+    if ((match.target === "latest balance" || match.target === "current balance") && match.rating > 0.7) {
+      balance = await getBalance(address, "latest");
+      setResult("Your latest wallet balance is " + balance + " ETH.")
       setAnimalInput("");
-    } catch (error) {
-      // Consider implementing your own error handling logic here
-      console.error(error);
-      alert(error.message);
+      console.log('latest balance');
+    } else if (match.target === "pending balance" && match.rating > 0.7) {
+      balance = await getBalance(address, "pending");
+      setResult("Your pending wallet balance is " + balance + " ETH.")
+      setAnimalInput("");
+      console.log('pending balance');
+    } else if (match.target === "earliest balance" && match.rating > 0.7) {
+      balance = await getBalance(address, "earliest");
+      setResult("Your earliest wallet balance is " + balance + " ETH.")
+      setAnimalInput("");
+      console.log('earliest balance');
+    } else {
+      try {
+        const response = await fetch("/api/generate", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ animal: animalInput }),
+        });
+  
+        const data = await response.json();
+        if (response.status !== 200) {
+          throw data.error ||
+            new Error(`Request failed with status ${response.status}`);
+        }
+  
+        setResult(data.result);
+        setAnimalInput("");
+      } catch (error) {
+        // Consider implementing your own error handling logic here
+        console.error(error);
+        alert(error.message);
+      }
     }
+
   }
 
   return (
