@@ -3,7 +3,7 @@ import { Web3Modal } from "@web3modal/react";
 import * as React from "react";
 import NextHead from "next/head";
 import { WagmiConfig } from "wagmi";
-import { chains, client, walletConnectProjectId } from "./wagmi";
+import { chains, client, walletConnectProjectId } from "../utils/wagmi";
 import "./globals.css";
 
 const ethereumClient = new EthereumClient(client, chains);
@@ -20,7 +20,7 @@ function App({ Component, pageProps }) {
       {mounted && <Component {...pageProps} />}
 
       <Web3Modal
-        projectId={walletConnectProjectId}
+        projectId="6f13342866c07f1d073480dc8e166fc3"
         ethereumClient={ethereumClient}
       />
     </WagmiConfig>
