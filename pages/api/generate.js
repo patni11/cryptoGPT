@@ -9,7 +9,11 @@ import coinData from "../../data/coinData";
 
 console.log(process.env);
 const configuration = new Configuration({
+<<<<<<< HEAD
   apiKey: process.env.OPENAI_API_KEY,
+=======
+  apiKey: "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",
+>>>>>>> e9cb19a (Adam fix green box and switch messager and bot logo)
 });
 
 const openai = new OpenAIApi(configuration);
